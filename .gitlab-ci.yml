@@ -20,6 +20,7 @@ stages:
 - incremental rollout 100%
 - performance
 - cleanup
+
 sast:
   stage: test
 include:

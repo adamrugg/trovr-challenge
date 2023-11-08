@@ -1,0 +1,221 @@
+run:
+  timeout: 3m
+  skip-dirs:
+    - infrastructure/grpc/definition
+    - infrastructure/http/definition
+linters-settings:
+  cyclop:
+    max-complexity: 10
+    package-average: 10.0
+
+  errcheck:
+    check-type-assertions: true
+
+  exhaustive:
+    check:
+      - switch
+      - map
+
+  exhaustruct:
+    exclude:
+      - "^net/http.Client$"
+      - "^net/http.Cookie$"
+      - "^net/http.Request$"
+      - "^net/http.Response$"
+      - "^net/http.Server$"
+      - "^net/http.Transport$"
+      - "^net/url.URL$"
+      - "^os/exec.Cmd$"
+      - "^reflect.StructField$"
+      - "^github.com/prometheus/client_golang/.+Opts$"
+      - "^cloud.google.com/go/pubsub$"
+      - "^_test"
+
+  funlen:
+    lines: 100
+    statements: 50
+
+  gocognit:
+    min-complexity: 20
+
+  gocritic:
+    settings:
+      captLocal:
+        paramsOnly: false
+      underef:
+        skipRecvDeref: false
+
+  gomnd:
+    ignored-functions:
+      - os.Chmod
+      - os.Mkdir
+      - os.MkdirAll
+      - os.OpenFile
+      - os.WriteFile
+      - prometheus.ExponentialBuckets
+      - prometheus.ExponentialBucketsRange
+      - prometheus.LinearBuckets
+
+  gomodguard:
+    blocked:
+      modules:
+        - github.com/golang/protobuf:
+            recommendations:
+              - google.golang.org/protobuf
+            reason: "see https://developers.google.com/protocol-buffers/docs/reference/go/faq#modules"
+        - github.com/satori/go.uuid:
+            recommendations:
+              - github.com/google/uuid
+            reason: "satori's package is not maintained"
+        - github.com/gofrs/uuid:
+            recommendations:
+              - github.com/google/uuid
+            reason: "gofrs' package is not go module"
+
+  govet:
+    enable-all: true
+    disable:
+      - fieldalignment
+    settings:
+      shadow:
+        strict: true
+  maintidx:
+    # Show functions with maintainability index lower than N.
+    # A high index indicates better maintainability (it's kind of the opposite of complexity).
+    # Default: 20
+    under: 20
+
+  nakedret:
+    max-func-lines: 0
+
+  nolintlint:
+    allow-no-explanation: []
+    require-explanation: true
+    require-specific: true
+
+  rowserrcheck:
+    packages:
+      - github.com/jmoiron/sqlx
+
+  tenv:
+    all: true
+
+linters:
+  enable:
+    # checks for unchecked errors.
+    - errcheck
+    # Simplifying code
+    - gosimple
+    # reports suspicious constructs.
+    - govet
+    # detects when assignments to existing variables are not used
+    - ineffassign
+    # Static analysis checks
+    - staticcheck
+    # type-checks Go code
+    - typecheck
+    # Checks for unused stuff
+    - unused
+    # checks for pass []any as any in variadic func(...any)
+    - asasalint
+    # Checks for non-ASCII stuff
+    - asciicheck
+    # checks for dangerous unicode character sequences
+    - bidichk
+    # Checks to see if response body for http network requests is closed properly
+    - bodyclose
+    # checks function and package cyclomatic complexity
+    - cyclop
+    # Check for duplicate code
+    - dupl
+    # checks for two durations multiplied together
+    - durationcheck
+    # checks that sentinel errors are prefixed with the Err and error types are suffixed with the Error
+    - errname
+    # finds code that will cause problems with the error wrapping
+    - errorlint
+    # checks query string in Query function which reads your Go src files and warning it finds
+    - execinquery
+    - exhaustive # checks exhaustiveness of enum switch statements
+    - exportloopref # checks for pointers to enclosing loop variables
+    - forbidigo # forbids identifiers
+    - funlen # tool for detection of long functions
+    - gocheckcompilerdirectives # validates go compiler directive comments (//go:)
+    - gochecknoglobals # checks that no global variables exist
+    - gochecknoinits # checks that no init functions are present in Go code
+    - gocognit # computes and checks the cognitive complexity of functions
+    - goconst # finds repeated strings that could be replaced by a constant
+    - gocritic # provides diagnostics that check for bugs, performance and style issues
+    - gocyclo # computes and checks the cyclomatic complexity of functions
+    - godot # checks if comments end in a period
+    - goimports # in addition to fixing imports, goimports also formats your code in the same style as gofmt
+    - gomnd # detects magic numbers
+    - gomoddirectives # manages the use of 'replace', 'retract', and 'excludes' directives in go.mod
+    - gomodguard # allow and block lists linter for direct Go module dependencies. This is different from depguard where there are different block types for example version constraints and module recommendations
+    - gosec # inspects source code for security problems
+    - lll # reports long lines
+    - loggercheck # checks key value pairs for common logger libraries (kitlog,klog,logr,zap)
+    - makezero # finds slice declarations with non-zero initial length
+    - musttag # enforces field tags in (un)marshaled structs
+    - nakedret # finds naked returns in functions greater than a specified function length
+    - nestif # reports deeply nested if statements
+    - nilerr # finds the code that returns nil even if it checks that the error is not nil
+    - nilnil # checks that there is no simultaneous return of nil error and an invalid value
+    - noctx # finds sending http request without context.Context
+    - nolintlint # reports ill-formed or insufficient nolint directives
+    - nonamedreturns # reports all named returns
+    - nosprintfhostport # checks for misuse of Sprintf to construct a host with port in a URL
+    - predeclared # finds code that shadows one of Go's predeclared identifiers
+    - promlinter # checks Prometheus metrics naming via promlint
+    - reassign # checks that package variables are not reassigned
+    - revive # fast, configurable, extensible, flexible, and beautiful linter for Go, drop-in replacement of golint
+    - stylecheck # is a replacement for golint
+    - tenv # detects using os.Setenv instead of t.Setenv since Go1.17
+    - testableexamples # checks if examples are testable (have an expected output)
+    - testpackage # makes you use a separate _test package
+    - tparallel # detects inappropriate usage of t.Parallel() method in your Go test codes
+    - unconvert # removes unnecessary type conversions
+    - unparam # reports unused function parameters
+    - usestdlibvars # detects the possibility to use variables/constants from the Go standard library
+    - wastedassign # finds wasted assignment statements
+    - whitespace # detects leading and trailing whitespace
+    - decorder # checks declaration order and count of types, constants, variables and functions
+    - exhaustruct # checks if all structure fields are initialized
+    - gci # controls golang package import order and makes it always deterministic
+    - godox # detects FIXME, TODO and other comment keywords
+    - goheader # checks is file header matches to pattern
+    - interfacebloat # checks the number of methods inside an interface
+    # - ireturn # accept interfaces, return concrete types
+    - prealloc # finds slice declarations that could potentially be preallocated
+    # - wrapcheck # checks that errors returned from external packages are wrapped
+    - containedctx # detects struct contained context.Context field
+    - dogsled # checks assignments with too many blank identifiers (e.g. x, _, _, _, := f())
+    - importas # enforces consistent import aliases
+    # measures the maintainability index of each function
+    - maintidx
+    # checks the struct tags
+    - tagliatelle
+
+issues:
+  max-same-issues: 50
+
+  exclude-rules:
+    - source: "^//\\s*go:generate\\s"
+      linters: [lll]
+    - source: "(noinspection|TODO)"
+      linters: [godot]
+    - source: "//noinspection"
+      linters: [gocritic]
+    - source: "^\\s+if _, ok := err\\.\\([^.]+\\.InternalError\\); ok {"
+      linters: [errorlint]
+    - path: _test\.go
+      linters:
+        - bodyclose
+        - dupl
+        - funlen
+        - goconst
+        - gosec
+        - noctx
+        - wrapcheck
+        - exhaustive
+        - exhaustruct
