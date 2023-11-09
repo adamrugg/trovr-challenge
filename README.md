@@ -23,6 +23,8 @@ The code base provided is written in Go and there is a benchmark and test within
 - When sheep are left for too long they get unsorted and need re-herding.
 - Sheep can be attacked by predators at random interviews. If a sheep dog fails to guard the sheep they will take damage.
 
+Please email josh@trovrapp.com, jay@trovrapp.com to confirm completion of test.
+
 </br>
 </br>
 </br>
