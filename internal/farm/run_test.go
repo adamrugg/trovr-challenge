@@ -2,6 +2,7 @@ package farm_test
 
 import (
 	fmt2 "fmt"
+	"math/rand"
 	"testing"
 
 	"github.com/stretchr/testify/suite"
@@ -49,11 +50,46 @@ func (fts *FarmTestSuite) TestDescendingFind() {
 	}
 }
 
+func (fts *FarmTestSuite) TestOldOrder() {
+	sheep := CreateSheep(NumberOfSheep)
+	if len(sheep) < 1 {
+		fts.FailNow("Could not carry out order test as their is only one element")
+	}
+	oldSheepHerded, err := fts.monty.MontyOld.Herd(sheep...)
+	if err != nil {
+		fts.FailNow("Could not herd sheep %+v\n test failed %+v", sheep, err)
+	}
+	for i := 1; i < NumberOfSheep; i++ {
+		if oldSheepHerded[i-1].ID() > oldSheepHerded[i].ID() {
+			fts.FailNow("Sheep:  %+v\n not in order test failed: %+v\n", sheep, err)
+		}
+	}
+}
+func (fts *FarmTestSuite) TestNewOrder() {
+	sheep := CreateSheep(NumberOfSheep)
+	if len(sheep) < 1 {
+		fts.FailNow("Could not carry out order test as their is only one element")
+	}
+	newSheepHerded, err := fts.monty.MontyNew.Herd(sheep...)
+	if err != nil {
+		fts.FailNow("Could not herd sheep %+v\n test failed %+v", sheep, err)
+	}
+	for i := 1; i < NumberOfSheep; i++ {
+		if newSheepHerded[i-1].ID() > newSheepHerded[i].ID() {
+			fts.FailNow("Sheep:  %+v\n not in order test failed: %+v\n", sheep, err)
+		}
+	}
+}
+
 func CreateSheep(numberOfSheep int) []livestock.Sheep {
 	sheep := make([]livestock.Sheep, numberOfSheep)
 	for i := 0; i < numberOfSheep; i++ {
 		sheep[i] = livestock.NewSheep(i)
 		fmt2.Printf("Sheep Added: %+v \n", sheep[i])
+	}
+	for i := range sheep {
+		j := rand.Intn(i + 1)
+		sheep[i], sheep[j] = sheep[j], sheep[i]
 	}
 	return sheep
 }
