@@ -118,7 +118,7 @@ func TestSuite(t *testing.T) {
 		"Sneed",
 	)
 	oldMonty := dog.NewGermanShepherdDog("Monty", "Bubble", "Linear")
-	newMonty := dog.NewGermanShepherdDog("Monty", "Default", "Default")
+	newMonty := dog.NewGermanShepherdDog("Monty", "Quick", "Binary")
 	oldSneedFarm := farm.NewDefaultFarmImpl(farmerTed, "Sneed Farm")
 	newSneedFarm := farm.NewDefaultFarmImpl(farmerTed, "Sneed Farm")
 	oldSneedFarm.AddSheepField([]farm.LiveStockField[livestock.Sheep]{

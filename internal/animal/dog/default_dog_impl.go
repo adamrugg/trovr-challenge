@@ -48,12 +48,13 @@ func (di DefaultDogImpl) Breed() string {
 
 // Happy implements Dog.
 func (di DefaultDogImpl) Happy() int {
-	panic("unimplemented")
+	return di.Happiness
 }
 
 // Bark implements Dog.
 func (di *DefaultDogImpl) Bark() {
-	panic("unimplemented")
+	fmt.Sprintf("%s: Woof!", di.DogsName())
+	return
 }
 
 // Fetch implements Dog.
@@ -67,22 +68,22 @@ func (di *DefaultDogImpl) Fetch(object object.Object) string {
 
 // LieDown implements Dog.
 func (di *DefaultDogImpl) LieDown() string {
-	panic("unimplemented")
+	return fmt.Sprintf("%s lied down", di.DogsName())
 }
 
 // Play implements Dog.
 func (di *DefaultDogImpl) Play() string {
-	panic("unimplemented")
+	return fmt.Sprintf("%s is playing", di.DogsName())
 }
 
 // Sit: The dog will sit.
 func (di *DefaultDogImpl) Sit() string {
-	panic("unimplemented")
+	return fmt.Sprintf("%s sat down", di.DogsName())
 }
 
 // WagTail: The dog will wag its tail.
 func (di *DefaultDogImpl) WagTail() string {
-	panic("unimplemented")
+	return fmt.Sprintf("%s wagged its tail", di.DogsName())
 }
 
 // Work: Is called when the dog does a action and it consumes it energy level.

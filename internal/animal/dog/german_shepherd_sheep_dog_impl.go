@@ -62,7 +62,7 @@ func (gsdi *GermanShepherdDogImpl) Guard(
 	return true, nil
 }
 
-// Hurd implements Sheep.
+// Herd implements Sheep.
 func (gsdi *GermanShepherdDogImpl) Herd(
 	sheep ...livestock.Sheep,
 ) ([]livestock.Sheep, error) {
@@ -73,6 +73,8 @@ func (gsdi *GermanShepherdDogImpl) Herd(
 	switch gsdi.sort {
 	case "Bubble":
 		sortedSheep = gsdi.bubbleSortSheep(sheep)
+	case "Quick":
+		sortedSheep = gsdi.quickSortSheep(sheep)
 	default:
 		sortedSheep = gsdi.bubbleSortSheep(sheep)
 	}
@@ -99,6 +101,19 @@ func (gsdi *GermanShepherdDogImpl) bubbleSortSheep(
 	return sheeps
 }
 
+func (gsdi *GermanShepherdDogImpl) quickSortSheep(sheeps []livestock.Sheep) []livestock.Sheep {
+	n := len(sheeps)
+
+	for i := 0; i < n-1; i++ {
+		for j := 0; j < n-i-1; j++ {
+			if sheeps[j].ID() > sheeps[j+1].ID() {
+				sheeps[j], sheeps[j+1] = sheeps[j+1], sheeps[j]
+			}
+		}
+	}
+	return sheeps
+}
+
 // find implements SheepDog.
 func (gsdi *GermanShepherdDogImpl) Find(
 	id int,
@@ -107,9 +122,11 @@ func (gsdi *GermanShepherdDogImpl) Find(
 	var foundSheep livestock.Sheep
 	switch gsdi.search {
 	case "Linear":
-		foundSheep = gsdi.linerSearch(id, sortedSheep)
+		foundSheep = gsdi.linearSearch(id, sortedSheep)
+	case "Binary":
+		foundSheep = gsdi.binarySearch(id, sortedSheep)
 	default:
-		foundSheep = gsdi.linerSearch(id, sortedSheep)
+		foundSheep = gsdi.linearSearch(id, sortedSheep)
 	}
 	if foundSheep == nil {
 		return nil, errors.New("sheep not found")
@@ -117,13 +134,33 @@ func (gsdi *GermanShepherdDogImpl) Find(
 	return foundSheep, nil
 }
 
-func (gsdi *GermanShepherdDogImpl) linerSearch(
+func (gsdi *GermanShepherdDogImpl) linearSearch(
 	id int,
 	sortedSheep []livestock.Sheep,
 ) livestock.Sheep {
 	for _, v := range sortedSheep {
 		if id == v.ID() {
 			return v
+		}
+	}
+	return nil
+}
+
+func (gsdi *GermanShepherdDogImpl) binarySearch(
+	id int,
+	sortedSheep []livestock.Sheep,
+) livestock.Sheep {
+	low := 0
+	high := len(sortedSheep) - 1
+
+	for low <= high {
+		mid := (low + high) / 2
+		if sortedSheep[mid].ID() == id {
+			return sortedSheep[mid]
+		} else if sortedSheep[mid].ID() < id {
+			low = mid + 1
+		} else {
+			high = mid - 1
 		}
 	}
 	return nil

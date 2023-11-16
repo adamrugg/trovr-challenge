@@ -89,7 +89,7 @@ func CreateOldFarm() farm.Farm {
 }
 
 func CreateNewFarm() farm.Farm {
-	newMonty := dog.NewGermanShepherdDog("Monty", "Default", "Default")
+	newMonty := dog.NewGermanShepherdDog("Monty", "Quick", "Binary")
 	newSneedFarm := farm.NewDefaultFarmImpl(CreateFarmerTed(), "Sneed Farm")
 	newSneedFarm.AddSheepField([]farm.LiveStockField[livestock.Sheep]{
 		farm.NewSheepField(CreateFarmerTed(), "Seed Quadrant 2", CreateSheep(NumberOfSheep), newMonty),
