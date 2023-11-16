@@ -2,6 +2,7 @@ package farm
 
 import (
 	"errors"
+	"fmt"
 
 	"gitlab.com/Trovr/recruitment/sheep-dog/internal/animal/farmer"
 	"gitlab.com/Trovr/recruitment/sheep-dog/internal/animal/livestock"
@@ -31,22 +32,28 @@ func (dfi *DefaultFarmImpl) Owner() farmer.Farmer {
 	return dfi.farmer
 }
 
+// implemented Visit() which uses the Name() func to print the current farm
+// a potential  solution could be assigning an value of 'farmCurrentlyOn' to the farmer implementation
 // Visit implements Farm.
-func (*DefaultFarmImpl) Visit() {
-	panic("unimplemented")
+func (dfi *DefaultFarmImpl) Visit() {
+	fmt.Println("Visiting ", dfi.Name())
 }
 
+// implemented ListFields() which iterates through the fields and  prin
 // ListFields implements Farm.
-func (*DefaultFarmImpl) ListFields() {
-	panic("unimplemented")
+func (dfi *DefaultFarmImpl) ListFields() {
+	fmt.Println("Listing fields:")
+	for _, field := range dfi.sheepFields {
+		fmt.Printf("Field: %s\n", field.Name())
+	}
 }
 
 // WorkField implements Farm.
 func (dfi *DefaultFarmImpl) WorkField() {
-
+	fmt.Printf("%s is working on %s", dfi.farmer, dfi.farmName)
 }
 
-// WorkField implements Farm.
+// Name implements Farm.
 func (dfi *DefaultFarmImpl) Name() string {
 	return dfi.farmName
 }

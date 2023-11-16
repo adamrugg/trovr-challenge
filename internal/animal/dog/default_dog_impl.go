@@ -51,10 +51,13 @@ func (di DefaultDogImpl) Happy() int {
 	return di.Happiness
 }
 
+// implemented Bark (work function) which can only be performed if the dog has 5 energy
 // Bark implements Dog.
 func (di *DefaultDogImpl) Bark() {
-	fmt.Sprintf("%s: Woof!", di.DogsName())
-	return
+	if err := di.Work(5.0); err != nil {
+		fmt.Println("Failed to bark:", err.Error())
+	}
+	fmt.Println(di.DogsName() + ": Woof!")
 }
 
 // Fetch implements Dog.
@@ -73,7 +76,9 @@ func (di *DefaultDogImpl) LieDown() string {
 
 // Play implements Dog.
 func (di *DefaultDogImpl) Play() string {
+	di.Happiness += 10
 	return fmt.Sprintf("%s is playing", di.DogsName())
+
 }
 
 // Sit: The dog will sit.
@@ -81,8 +86,12 @@ func (di *DefaultDogImpl) Sit() string {
 	return fmt.Sprintf("%s sat down", di.DogsName())
 }
 
+// implemented WagTail (work function) which can only be performed if the dog has 5 energy
 // WagTail: The dog will wag its tail.
 func (di *DefaultDogImpl) WagTail() string {
+	if err := di.Work(3.0); err != nil {
+		fmt.Printf("Failed to wag tail: %s\n", err.Error())
+	}
 	return fmt.Sprintf("%s wagged its tail", di.DogsName())
 }
 

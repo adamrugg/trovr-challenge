@@ -1,3 +1,21 @@
+# Trovr sheepdog challenge - Adam Ruggier
+
+The below will discuss a number of choices made throughout development, particularly on how both herding (sorting) and searching were optimised with a view towards scalability. All code changes are commented throughout the document.
+
+## Handling storing of sheep / Herding (quickSort)
+
+The use of quickSort was implemented as a more efficient alternative to Bubble Sort (the current herding implementation) providing a faster average time complexity of O(n log n), as opposed to Bubble Sort's average time complexity of O(n^2), handicapping its use with larger data sets, thus making quickSort a more scalable option especially as the number of sheep grow.
+
+## Searching for sheep (Binary Search)
+
+Binary Search was preferred due to its nature of requiring data to be sorted first, whilst also providing a more efficient option wih larger data sets with a time complexity of O(log n); the previously implemented linear search would simply take too long for larger data sets as the game progresses due to its' sequential nature (O(n)).
+
+## General improvements (unimplemented code)
+
+Implemented incomplete and incorrect code throughout the codebase, particularly within default_dog_impl.go (e.g. implementing Bark, a Work function) as well as including the new search and sort functions within the test and benchmark classes.
+
+Thank you for taking the time to go through my code :\) 
+
 # Welcome to the Trovr developer competency test
 
 ## Scenario

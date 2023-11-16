@@ -118,7 +118,7 @@ func TestSuite(t *testing.T) {
 		"Sneed",
 	)
 	oldMonty := dog.NewGermanShepherdDog("Monty", "Bubble", "Linear")
-	newMonty := dog.NewGermanShepherdDog("Monty", "Quick", "Binary")
+	newMonty := dog.NewGermanShepherdDog("Monty", "Quick", "Binary") // replaced default selections with newly implemented quickSort and binarySearch functions
 	oldSneedFarm := farm.NewDefaultFarmImpl(farmerTed, "Sneed Farm")
 	newSneedFarm := farm.NewDefaultFarmImpl(farmerTed, "Sneed Farm")
 	oldSneedFarm.AddSheepField([]farm.LiveStockField[livestock.Sheep]{
